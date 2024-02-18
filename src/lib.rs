@@ -1,4 +1,4 @@
-mod logger;
+pub mod logger;
 
 use std::{env, fmt::Debug, fs::File, io::BufReader, path::Path, str::FromStr};
 
