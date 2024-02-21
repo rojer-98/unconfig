@@ -33,8 +33,7 @@ impl<T: Sized + DeserializeOwned + Debug> Config for T {
                 let start = location.line().saturating_sub(5);
                 let end = location.line() + 5;
                 let mut msg = format!(
-                    "{}\nRelevant part of the config (set DEBUG_CONFIG=1 to print full config):\n",
-                    e
+                    "{e}\nRelevant part of the config (set DEBUG_CONFIG=1 to print full config):\n",
                 );
 
                 for (index, line) in config.lines().enumerate().skip(start).take(end - start) {
@@ -50,7 +49,8 @@ impl<T: Sized + DeserializeOwned + Debug> Config for T {
                         ""
                     };
 
-                    msg += format!("{}{:>3}: {}{}\n", tag0, index + 1, line, tag1).as_str();
+                    let inc = index + 1;
+                    msg += format!("{tag0}{inc:>3}: {line}{tag1}\n").as_str();
                 }
 
                 return Err(anyhow!("{msg}"));
@@ -65,11 +65,10 @@ impl<T: Sized + DeserializeOwned + Debug> Config for T {
 
 fn load_config<P: AsRef<Path>>(path: P) -> Result<serde_yaml::Value> {
     let full_path = env::current_dir()?.join(&path);
+    let path_display = full_path.display();
 
-    let file = File::open(path.as_ref()).context(format!(
-        "failed to open config file: {}",
-        full_path.display()
-    ))?;
+    let file = File::open(path.as_ref())
+        .context(format!("failed to open config file: {path_display}",))?;
 
     let reader = BufReader::new(file);
     let config: serde_yaml::Value = serde_yaml::from_reader(reader)?;
