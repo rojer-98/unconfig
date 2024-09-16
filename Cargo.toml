@@ -6,16 +6,19 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+# Own 
+derive_macro = { path = "./derive_macro" }
+
 # Serialize|Deserialize
-serde = { version = "1.0.190", default-features = false, features = [ "derive" ] }
+serde = { version = "1.0.209", features = [ "derive" ] }
 serde_yaml = "0.9"
 
 # Log
 tracing-log = "0.2.0"
-tracing-appender = "0.2.2"
-tracing-subscriber = { version = "0.3.17", features = [ "env-filter", "std" ] }
+tracing-appender = "0.2.3"
+tracing-subscriber = { version = "0.3.18", features = [ "env-filter", "std" ] }
 tracing = { version = "0.1.40", features = [ "log" ] }
 
 # Errors
-anyhow = { version =  "1.0.79" }
-thiserror = { version = "1.0.56" }
+anyhow = { version =  "1.0.86" }
+thiserror = { version = "1.0.63" }
