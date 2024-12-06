@@ -1,0 +1,12 @@
+access:
+  url: "0"
+  access_code: "0"
+
+user:
+  name: "None"
+  pass: "None"
+
+custom_user:
+  name: "None"
+  pass: "None"
+  custom_var: ${CUSTOM_VAR:1}

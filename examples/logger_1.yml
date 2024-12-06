@@ -1,0 +1,6 @@
+logger:
+  log_file_prefix: log/some.log
+  default_level: ${DEFAULT_LOG_LEVEL:trace}
+  filter:
+    tokio: ${TOKIO_LOG_LEVEL:trace}
+    axum: ${AXUM_LOG_LEVEL:trace}

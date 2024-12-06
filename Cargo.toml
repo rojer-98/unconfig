@@ -22,3 +22,9 @@ tracing = { version = "0.1.40", features = [ "log" ] }
 # Errors
 anyhow = { version =  "1.0.86" }
 thiserror = { version = "1.0.63" }
+
+[workspace]
+members = [
+  ".", 
+  "./derive_macro", 
+]

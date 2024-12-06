@@ -1,0 +1,7 @@
+access:
+  url: "12323"
+  access_code: "23123"
+
+user:
+  name: "John Doe"
+  pass: "12345"
