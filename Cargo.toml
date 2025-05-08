@@ -5,6 +5,10 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+default = [ "logger" ]
+logger = ["dep:tracing-appender", "dep:tracing-subscriber", "dep:tracing", "dep:thiserror"]
+
 [dependencies]
 # Own 
 derive_macro = { path = "./derive_macro" }
@@ -14,13 +18,13 @@ serde = { version = "1.0.209", features = [ "derive" ] }
 serde_yaml = "0.9"
 
 # Log
-tracing-appender = "0.2.3"
-tracing-subscriber = { version = "0.3.18", features = [ "env-filter", "std" ] }
-tracing = { version = "0.1.40", features = [ "log" ] }
+tracing-appender = { version = "0.2.3", optional = true }
+tracing-subscriber = { version = "0.3.18", features = [ "env-filter", "std" ], optional = true }
+tracing = { version = "0.1.40", features = [ "log" ], optional = true }
 
 # Errors
 anyhow = { version =  "1.0.86" }
-thiserror = { version = "1.0.63" }
+thiserror = { version = "1.0.63", optional = true}
 
 [workspace]
 members = [

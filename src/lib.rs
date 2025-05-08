@@ -1,3 +1,4 @@
+#[cfg(feature = "logger")]
 mod logger;
 
 // Reimport
@@ -5,13 +6,13 @@ pub use serde;
 
 // Own
 pub use derive_macro::*;
+#[cfg(feature = "logger")]
 pub use logger::*;
 
 use std::{env, fs::File, io::BufReader, path::Path, str::FromStr};
 
 use anyhow::{anyhow, Context, Result};
 use serde::de::DeserializeOwned;
-use tracing::trace;
 
 pub trait Config {
     fn load_str(src: &'static str) -> Result<Self>
@@ -68,10 +69,6 @@ fn load<T: Sized + DeserializeOwned>(mut params: serde_yaml::Value) -> Result<T>
 
     let config = serde_yaml::to_string(&params)?;
     let params: Result<T, serde_yaml::Error> = serde_yaml::from_str(&config);
-
-    if let Ok("1") = env::var("DEBUG_CONFIG").as_deref() {
-        trace!("Full processed config:\n{config}");
-    }
 
     if let Err(e) = &params {
         if let Some(location) = e.location() {
