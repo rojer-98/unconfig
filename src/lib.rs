@@ -5,7 +5,10 @@ mod logger;
 pub use serde;
 
 // Own
-pub use derive_macro::*;
+pub use derive_macro::{config, configurable, implicate};
+
+#[cfg(feature = "logger")]
+pub use derive_macro::logger;
 #[cfg(feature = "logger")]
 pub use logger::*;
 
