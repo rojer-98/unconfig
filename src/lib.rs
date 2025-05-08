@@ -42,8 +42,7 @@ impl<T: Sized + DeserializeOwned> Config for T {
         Self: Sized + DeserializeOwned,
     {
         let full_path = env::current_dir()?.join(
-            &path
-                .as_ref()
+            path.as_ref()
                 .file_name()
                 .ok_or(anyhow!("File name is not set"))?,
         );
