@@ -14,17 +14,17 @@ logger = ["dep:tracing-appender", "dep:tracing-subscriber", "dep:tracing", "dep:
 derive_macro = { path = "./derive_macro" }
 
 # Serialize|Deserialize
-serde = { version = "1.0.209", features = [ "derive" ] }
+serde = { version = "1.0.219", features = [ "derive" ] }
 serde_yaml = "0.9"
 
 # Log
 tracing-appender = { version = "0.2.3", optional = true }
-tracing-subscriber = { version = "0.3.18", features = [ "env-filter", "std" ], optional = true }
-tracing = { version = "0.1.40", features = [ "log" ], optional = true }
+tracing-subscriber = { version = "0.3.19", features = [ "env-filter", "std" ], optional = true }
+tracing = { version = "0.1.41", features = [ "log" ], optional = true }
 
 # Errors
-anyhow = { version =  "1.0.86" }
-thiserror = { version = "1.0.63", optional = true}
+anyhow = { version =  "1.0.98" }
+thiserror = { version = "1.0.69", optional = true}
 
 [workspace]
 members = [
