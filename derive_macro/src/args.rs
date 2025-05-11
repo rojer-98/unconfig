@@ -58,7 +58,7 @@ pub struct PathArgsConfigurable {
 // Replace slashes
 impl Parse for PathArgsConfigurable {
     fn parse(input: ParseStream) -> Result<Self> {
-        let root_dir = format!("{}", var("CARGO_MANIFEST_DIR").unwrap());
+        let root_dir = var("CARGO_MANIFEST_DIR").unwrap().to_string();
         let (cp, ep) = parse(input);
         let parsed = cp.unwrap_or("config.yml".to_string());
 
@@ -87,7 +87,7 @@ impl Parse for PathArgsConfigurable {
 
 impl Parse for PathArgsLogger {
     fn parse(input: ParseStream) -> Result<Self> {
-        let root_dir = format!("{}", var("CARGO_MANIFEST_DIR").unwrap());
+        let root_dir = var("CARGO_MANIFEST_DIR").unwrap().to_string();
         let (cp, ep) = parse(input);
         let parsed = cp.unwrap_or("logger.yml".to_string());
 
@@ -126,33 +126,22 @@ fn parse(input: ParseStream) -> (Option<String>, Option<String>) {
                 None
             }
         })
+        .filter(|parsed| parsed.contains("${"))
         .and_then(|parsed| {
-            if parsed.contains("${") {
-                let last_curly = parsed.find('}').unwrap();
-                let env_var_s = parsed[2..last_curly].to_string();
+            let last_curly = parsed.find('}')?;
+            let env_var_s = parsed[2..last_curly].to_string();
 
-                match var(&env_var_s) {
-                    Ok(value) => return Some((Some(value), Some(env_var_s))),
-                    Err(_) => {
-                        if env_var_s.contains(':') {
-                            if let Some((varname, tail)) = env_var_s.split_once(':') {
-                                if let Ok(value) = var(varname) {
-                                    return Some((Some(value), Some(varname.to_string())));
-                                } else {
-                                    return Some((
-                                        Some(tail.to_string()),
-                                        Some(varname.to_string()),
-                                    ));
-                                }
-                            }
-                        }
-
-                        return Some((None, Some(env_var_s)));
-                    }
-                }
+            match var(&env_var_s) {
+                Ok(value) => Some((Some(value), Some(env_var_s))),
+                Err(_) if env_var_s.contains(':') => match env_var_s.split_once(':') {
+                    Some((varname, tail)) => match var(varname) {
+                        Ok(value) => Some((Some(value), Some(varname.to_string()))),
+                        _ => Some((Some(tail.to_string()), Some(varname.to_string()))),
+                    },
+                    _ => Some((Some(parsed), None)),
+                },
+                _ => Some((None, Some(env_var_s))),
             }
-
-            Some((Some(parsed), None))
         })
         .unwrap_or((None, None))
 }

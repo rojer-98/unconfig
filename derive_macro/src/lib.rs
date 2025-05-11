@@ -173,14 +173,14 @@ pub fn configurable(args: TokenStream, item: TokenStream) -> TokenStream {
     let prev_struct_attrs = input.attrs.iter().fold(quote! {}, |acc, attr| {
         let attr_parsed = attr.meta.to_token_stream().to_string();
         if let Some((_, attr_name)) = attr_parsed.split_once("derive(") {
-            let attr_idents = &attr_name[0..attr_name.len() - 1]
-                .to_string()
-                .split(',')
-                .fold(quote! {}, |attr_derive_acc, attr_derive_name| {
-                    let attr_derive_ident = Type::from_string(attr_derive_name.into()).unwrap();
+            let attr_idents = &attr_name[0..attr_name.len() - 1].split(',').fold(
+                quote! {},
+                |attr_derive_acc, attr_derive_name| {
+                    let attr_derive_ident = Type::from_string(attr_derive_name).unwrap();
 
                     quote! { #attr_derive_acc #attr_derive_ident,}
-                });
+                },
+            );
 
             quote! { #acc #attr_idents }
         } else {
