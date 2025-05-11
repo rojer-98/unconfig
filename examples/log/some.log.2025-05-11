@@ -1,0 +1,2 @@
+2025-05-11T23:01:37.464521Z  INFO main unconfig::logger: 286: Started logging to file log/some.log
+2025-05-11T23:01:37.464536Z  INFO main simple: 28: Hello world!

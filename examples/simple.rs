@@ -29,8 +29,8 @@ fn main() -> Result<()> {
     trace!("Hello world!");
     debug!("Hello world!");
 
-    println!("{:?}", CONFIG_USER.name());
-    println!("{:?}", CONFIG_CUSTOM_USER.custom_var());
+    println!("{:?}", CONFIG_USER.get_name());
+    println!("{:?}", CONFIG_CUSTOM_USER.get_custom_var());
 
     Ok(())
 }

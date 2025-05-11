@@ -171,7 +171,7 @@ pub fn configurable(args: TokenStream, item: TokenStream) -> TokenStream {
             }
 
             pub fn #set_f(&mut self, #ident: #ty) {
-                self.#ident = #ident;
+                self.#ident = Some(#ident);
             }
         };
 
