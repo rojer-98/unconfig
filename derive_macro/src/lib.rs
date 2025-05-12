@@ -160,7 +160,6 @@ pub fn configurable(args: TokenStream, item: TokenStream) -> TokenStream {
         merge_func = quote! {#merge_func #ident: rhs.#ident.or(self.#ident),};
 
         let get_f = format_ident!("get_{ident}");
-        let set_f = format_ident!("set_{ident}");
         getters_func = quote! {
             #getters_func
 
@@ -168,10 +167,6 @@ pub fn configurable(args: TokenStream, item: TokenStream) -> TokenStream {
                 self.#ident
                     .clone()
                     .unwrap_or_default()
-            }
-
-            pub fn #set_f(&mut self, #ident: #ty) {
-                self.#ident = Some(#ident);
             }
         };
 
